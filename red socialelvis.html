@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tienda de Ropa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+    header {
+      background-color: #333;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .product {
+      background: white;
+      padding: 10px;
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .product img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+    .product h3 {
+      margin: 10px 0 5px;
+    }
+    .product p {
+      margin: 0 0 10px;
+    }
+    .product button {
+      background: #28a745;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    #cart {
+      position: fixed;
+      top: 0;
+      right: 0;
+      background: white;
+      width: 250px;
+      height: 100%;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+      padding: 20px;
+      overflow-y: auto;
+    }
+    #cart h2 {
+      margin-top: 0;
+    }
+    .cart-item {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Tienda de Ropa JhordyStyle</h1>
+</header>
+
+<div class="container" id="product-list">
+  <!-- Productos aquí -->
+</div>
+
+<div id="cart">
+  <h2>🛒 Carrito</h2>
+  <div id="cart-items"></div>
+  <h3>Total: $<span id="total">0</span></h3>
+</div>
+
+<script>
+  const products = [
+    { id: 1, name: 'Camiseta Negra', price: 20, image: 'https://via.placeholder.com/300x200?text=Camiseta+Negra' },
+    { id: 2, name: 'Pantalón Jeans', price: 35, image: 'https://via.placeholder.com/300x200?text=Pantalón+Jeans' },
+    { id: 3, name: 'Chaqueta Deportiva', price: 50, image: 'https://via.placeholder.com/300x200?text=Chaqueta+Deportiva' },
+    { id: 4, name: 'Gorra Urbana', price: 15, image: 'https://via.placeholder.com/300x200?text=Gorra+Urbana' }
+  ];
+
+  const cart = [];
+
+  function renderProducts() {
+    const list = document.getElementById('product-list');
+    products.forEach(prod => {
+      const div = document.createElement('div');
+      div.className = 'product';
+      div.innerHTML = `
+        <img src="${prod.image}" alt="${prod.name}">
+        <h3>${prod.name}</h3>
+        <p>Precio: $${prod.price}</p>
+        <button onclick="addToCart(${prod.id})">Agregar al carrito</button>
+      `;
+      list.appendChild(div);
+    });
+  }
+
+  function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    cart.push(product);
+    updateCart();
+  }
+
+  function updateCart() {
+    const cartItems = document.getElementById('cart-items');
+    cartItems.innerHTML = '';
+    let total = 0;
+    cart.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.textContent = `${item.name} - $${item.price}`;
+      cartItems.appendChild(div);
+      total += item.price;
+    });
+    document.getElementById('total').textContent = total.toFixed(2);
+  }
+
+  renderProducts();
+</script>
+
+</body>
+</html>
